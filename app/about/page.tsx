@@ -9,7 +9,7 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import classes from "./NotFoundPage.module.css";
+import classes from '@/lib/components/NotFoundPage.module.css';
 import { motion } from "framer-motion";
 
 export default function AboutPage() {
