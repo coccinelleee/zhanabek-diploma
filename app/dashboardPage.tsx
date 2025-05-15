@@ -134,8 +134,8 @@ export default function DashboardPage({
 
 	const [parts, setParts] = useState<PartState[]>(loadedParts);
 	const [isSearchResult, setIsSearchResult] = useState(
-		searchCatalog ? searchCatalog.length > 0 : false ?? false
-	);
+		!!searchCatalog && searchCatalog.length > 0
+	  );			
 	const [activePage, setPage] = useState(1);
 
 	const [parentCatalogNamesState, setParentCatalogNamesState] =
