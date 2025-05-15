@@ -56,7 +56,7 @@ export default function NavFooter() {
 
           {/* Автор / жетекші */}
           <Grid.Col span={{ base: 12, md: 3 }}>
-            <Stack align="center" spacing="xs">
+            <Stack style={{ gap: 'var(--mantine-spacing-xs)', alignItems: 'center' }}>
               <Divider w="50%" />
               <Text fw={700} size="md">🎓 Жобаны жасаған студент:</Text>
               <Text size="sm">Сұлтанғали Жанабек</Text>
