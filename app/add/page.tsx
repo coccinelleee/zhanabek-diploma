@@ -31,6 +31,9 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { Html5Qrcode } from "html5-qrcode";
 import { Html5QrcodeScannerState } from "html5-qrcode";
 
+type FormValues = {
+  productImages: string[];
+};
 
 export default function Add() {
   const [isLoading, setLoading] = useState(false);
@@ -41,12 +44,12 @@ export default function Add() {
       productId: "",
       productCode: "",
       productModel: "",
+      productImages: [] as string[],
       productDescription: "",
       parentCatalogName: "",
       catalogName: "",
       brandName: "",
       encapStandard: "",
-      productImages: [],
       pdfLink: "",
       productLink: "",
       tolerance: "",
@@ -240,20 +243,20 @@ async function handleAutocomplete() {
       let currentPartInfo = form.values || ({} as any);
       if (currentPartInfo) {
         currentPartInfo.voltage =
-          voltageFormRef.current?.getSearchParameters().value;
+          String(voltageFormRef.current?.getSearchParameters().value ?? "");
         currentPartInfo.resistance =
-          resistanceFormRef.current?.getSearchParameters().value;
+          String(resistanceFormRef.current?.getSearchParameters().value ?? ""); 
         currentPartInfo.power =
-          powerFormRef.current?.getSearchParameters().value;
+          String(powerFormRef.current?.getSearchParameters().value ?? "");     
         currentPartInfo.current =
-          currentFormRef.current?.getSearchParameters().value;
+          String(currentFormRef.current?.getSearchParameters().value ?? "");     
         currentPartInfo.frequency =
-          frequencyFormRef.current?.getSearchParameters().value;
+          String(frequencyFormRef.current?.getSearchParameters().value ?? "");      
         currentPartInfo.capacitance =
-          capacitanceFormRef.current?.getSearchParameters().value;
+          String(capacitanceFormRef.current?.getSearchParameters().value ?? ""); 
         currentPartInfo.inductance =
-          inductanceFormRef.current?.getSearchParameters().value;
-      }
+          String(inductanceFormRef.current?.getSearchParameters().value ?? "");
+      }      
       const response = await fetch("/api/parts/create", {
         method: "POST",
         body: JSON.stringify(form.values),
@@ -357,33 +360,33 @@ async function handleAutocomplete() {
   
         <Paper p="sm">
           <Stack p="sm">
-            {/* Dropzone — Суреттерді жүктеу */}
-            <Dropzone
-              onDrop={(files) => {
-                const readers = files.map((file) => {
-                  return new Promise<string>((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result as string);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                  });
-                });
-  
-                Promise.all(readers).then((images) => {
-                  form.setFieldValue("productImages", [
-                    ...form.values.productImages,
-                    ...images,
-                  ]);
-                });
-              }}
-              accept={IMAGE_MIME_TYPE}
-              multiple
-            >
-              <Center p={20}>
-                <Text c="dimmed">Суреттерді осы жерге тастаңыз немесе таңдаңыз</Text>
-              </Center>
-            </Dropzone>
-  
+          <Dropzone
+          onDrop={(files) => {
+            const readers = files.map((file) => {
+              return new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result as string);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+              });
+            });
+
+            Promise.all(readers).then((images) => {
+              form.setFieldValue("productImages", [
+                ...(form.values.productImages ?? []),
+                ...images,
+              ]);
+            });
+          }}
+          accept={IMAGE_MIME_TYPE}
+          multiple
+        >
+          <Center p={20}>
+            <Text c="dimmed">
+              Суреттерді осы жерге тастаңыз немесе таңдаңыз
+            </Text>
+          </Center>
+        </Dropzone>;
             {/* Авто-толтыру */}
             <Paper p="sm" shadow="sm">
               <Group justify="space-between" pb={4}>

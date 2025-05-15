@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const filter = res.filter;
     const page = res.page;
 
-    let where: Prisma.PartsWhereInput = {};
+    let where: Prisma.PartWhereInput = {};
 
     if (filter.productCode) {
       where.productCode = {
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         filter[key].operation !== null
       ) {
         let operation = convertOperation(filter[key].operation);
-        let temp: Prisma.PartsWhereInput = {};
+        let temp: Prisma.PartWhereInput = {};
         if (filter[key].value) {
           (temp as any)[key] = {
             [operation]: filter[key].value,
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const parts = await prisma.parts.findMany({
+    const parts = await prisma.part.findMany({
       where: Object.keys(where).length > 0 ? where : undefined,
       orderBy: { id: "desc" },
       take: 10,

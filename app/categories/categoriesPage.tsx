@@ -62,12 +62,15 @@ export default function CategoriesPage({
               className={classes.card}
               padding="xl"
               onClick={() => {
-                router.push(`/?catalog=${encodeURIComponent(item.parentCatalogName)}`);
+                const catalog = item.parentCatalogName;
+                if (catalog) {
+                  router.push(`/?catalog=${encodeURIComponent(catalog)}`);
+                }
               }}
             >
               <Card.Section>
                 <Image
-                  src={item.productImages[0] ?? "/images/image-bg.svg"}
+                  src={typeof item.productImages?.[0] === "string" ? item.productImages[0]! : "/images/image-bg.svg"}
                   height={160}
                   fit="cover"
                 />

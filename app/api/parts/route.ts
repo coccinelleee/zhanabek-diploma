@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1", 10);
     const skip = (page - 1) * 10;
 
-    const parts = await prisma.parts.findMany({
+    const parts = await prisma.part.findMany({
       orderBy: { id: "desc" },
       take: 10,
       skip,
@@ -33,12 +33,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const existing = await prisma.parts.findUnique({
+    const existing = await prisma.part.findUnique({
       where: { productCode: pc },
     });
 
     if (existing) {
-      const updated = await prisma.parts.update({
+      const updated = await prisma.part.update({
         where: { id: existing.id },
         data: {
           quantity: existing.quantity + quantity,
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     const partInfo = extractPartInfoFromLCSCResponse(rawLCSC);
 
     // --- Create new part ---
-    const partCreate = await prisma.parts.create({
+    const partCreate = await prisma.part.create({
       data: {
         title: partInfo.title,
         quantity: quantity,
@@ -92,8 +92,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const itemCount = await prisma.parts.count();
-    const parentCatalogNamesRaw = await prisma.parts.groupBy({ by: ["parentCatalogName"] });
+    const itemCount = await prisma.part.count();
+    const parentCatalogNamesRaw = await prisma.part.groupBy({ by: ["parentCatalogName"] });
     const parentCatalogNames = parentCatalogNamesRaw
       .map((item) => item.parentCatalogName)
       .filter(Boolean);
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
       body: partCreate,
       itemCount,
       parentCatalogNames,
-      message: "Part created",
+      message: "Бөлім құрылды",
     });
 
   } catch (error: any) {

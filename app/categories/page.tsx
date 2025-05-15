@@ -4,7 +4,7 @@ import CategoriesPage from "./categoriesPage";
 import prisma from "@/lib/prisma";
 
 export default async function Categories() {
-  const catalogItems = await prisma.parts.findMany({
+  const catalogItems = await prisma.part.findMany({
     distinct: ['parentCatalogName'],
     select: {
       parentCatalogName: true,

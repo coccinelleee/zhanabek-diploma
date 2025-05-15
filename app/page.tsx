@@ -13,14 +13,14 @@ export default async function Home(props: Props) {
   //Get catalog search parameter from URL 
   const catalog = decodeURIComponent(props.searchParams?.catalog ?? "");
   //Get first 10 items 
-  const parts = (await prisma.parts.findMany({
+  const parts = (await prisma.part.findMany({
     orderBy: { id: "desc" },
     take: 10,
     where: { parentCatalogName: { equals: catalog } },
   })) as PartState[];
   //Get total part count and parent catalog names
-  const aggregatedParts = await prisma.parts.aggregate({ _count: true });
-  const parentCatalogNamesRaw = await prisma.parts.groupBy({
+  const aggregatedParts = await prisma.part.aggregate({ _count: true });
+  const parentCatalogNamesRaw = await prisma.part.groupBy({
     by: ["parentCatalogName"],
   });
   //Filter parent catalog names (exclude null values)

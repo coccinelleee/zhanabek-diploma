@@ -117,18 +117,17 @@ const ValueSearch = forwardRef<ValueSearchRef, ValueSearchProps>(({ valueType },
     <Paper withBorder>
       <Group gap={0}>
       <Select
-          data={operations}
-          value={operation}
-          onChange={(val) => setOperation(val)}
-          w="30%"
-          size="sm"
-          radius={0}
-          styles={{
-            input: { fontFamily: "monospace" },
-            item: { fontFamily: "monospace" },
-          }}
-          placeholder="Оператор"
-        />
+        data={operations}
+        value={operation}
+        onChange={(val) => setOperation(val)}
+        w="30%"
+        size="sm"
+        radius={0}
+        classNames={{
+          input: "monospace"
+        }}
+        placeholder="Оператор"
+      />
         <NumberInput
           placeholder={valueType}
           value={value ?? ""}

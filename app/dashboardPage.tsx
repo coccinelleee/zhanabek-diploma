@@ -150,13 +150,13 @@ export default function DashboardPage({
 
 	const searchForm = useForm<FilterState>({
 		initialValues: {
-			productTitle: null,
-			productCode: null,
-			productDescription: null,
-			encapStandard: null,
-			parentCatalogName: searchCatalog || null,
+			productTitle: undefined,
+			productCode: undefined,
+			productDescription: undefined,
+			encapStandard: undefined,
+			parentCatalogName: searchCatalog || undefined,
 		},
-	});
+	});	
 
 	useEffect(() => {
 		if (typeof document !== "undefined") {
@@ -294,7 +294,7 @@ export default function DashboardPage({
 		inductanceSearchRef?.current?.clear();
 		router.replace("/", undefined);
 		searchForm.reset();
-		searchForm.setFieldValue("parentCatalogName", null);
+		searchForm.setFieldValue("parentCatalogName", undefined);
 		setPage(1);
 		await getParts(1);
 	}
@@ -521,9 +521,9 @@ export default function DashboardPage({
 							searchable
 							value={searchForm.values.parentCatalogName}
 							onChange={(value) => {
-								searchForm.setFieldValue("parentCatalogName", value);
-								searchParts(1); 
-							}}
+								searchForm.setFieldValue("parentCatalogName", value ?? undefined);
+								searchParts(1);
+							  }}							  
 							/>
 							<Button
 								type="submit"
@@ -637,10 +637,8 @@ function PartItem({
 		<Table.Tr key={part.id}>
 			<Table.Td>
 				<img
-					src={part.productImages[0]}
+					src={part.productImages?.[0] ?? "/default.png"} alt="Логотип" width="100" height="100"
 					// alt={part.title}
-					width="100"
-					height="100"
 				/>
 			</Table.Td>
 			<Table.Td>
@@ -768,11 +766,11 @@ function PartItem({
 			</Table.Td>
 			<HoverCard position="left" withArrow>
 				<HoverCard.Target>
-					<Table.Td>
-						{part.prices.at(0)?.price
-							? part.prices.at(0)?.price + "₸"
-							: ""}
-					</Table.Td>
+				<Table.Td>
+				{part.prices?.length
+					? part.prices[0]?.price + "₸"
+					: ""}
+				</Table.Td>
 				</HoverCard.Target>
 				<HoverCard.Dropdown>
 					<Table>
@@ -783,12 +781,12 @@ function PartItem({
 							</Table.Tr>
 						</Table.Thead>
 						<Table.Tbody>
-							{part.prices.map((price) => (
-								<Table.Tr key={price.ladder}>
-									<Table.Td>{price.ladder}</Table.Td>
-									<Table.Td>{price.price + "₸"}</Table.Td>
-								</Table.Tr>
-							))}
+						{part.prices?.map((price) => (
+						<Table.Tr key={price.ladder}>
+							<Table.Td>{price.ladder}</Table.Td>
+							<Table.Td>{price.price + "₸"}</Table.Td>
+						</Table.Tr>
+						))}
 						</Table.Tbody>
 					</Table>
 				</HoverCard.Dropdown>

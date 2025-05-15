@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Parts {
+model Part {
   id       Int     @id @default(autoincrement())
   title    String?
   quantity Int     @default(0)
