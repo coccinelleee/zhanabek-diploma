@@ -73,7 +73,7 @@ const ValueSearch = forwardRef<ValueSearchRef, ValueSearchProps>(({ valueType },
 
   const [value, setValue] = useState<number | null>(null);
   const [unit, setUnit] = useState<string | null>(defaultUnit);
-  const [operation, setOperation] = useState<string | null>(operations[0]);
+  const [operation, setOperation] = useState<string | null>(operations[0]?.value ?? null);
 
   useImperativeHandle(ref, () => ({
     getSearchParameters: () => {
@@ -109,7 +109,7 @@ const ValueSearch = forwardRef<ValueSearchRef, ValueSearchProps>(({ valueType },
     clear: () => {
       setValue(null);
       setUnit(defaultUnit);
-      setOperation(operations[0]);
+      setOperation(operations[0]?.value ?? null);
     },
   }));
 
