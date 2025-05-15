@@ -8,63 +8,80 @@ import { useRouter } from "next/navigation";
 import AuthFormContainer from "./AuthFormContainer";
 
 export default function SignupPage() {
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const formData = new FormData(e.currentTarget)
-        const response = await fetch('/api/auth/register', {
-            method: "POST",
-            body: JSON.stringify({
-                name: formData.get('name'),
-                email: formData.get('email'),
-                password: formData.get('password'),
-            })
-        }).then(res => res.json())
-        if (response.error) {
-            console.error(response.error)
-            notifications.show({ title: "Error", message: response.error, color: "red" })
-        } else {
-            //Sign user in when registration is successful
-            await signIn('credentials', {
-                email: formData.get('email'),
-                password: formData.get('password'),
-                redirect: false
-            }).then(({ ok }) => {
-                if (ok) {
-                    router.push('/')
-                    notifications.show({ title: "Success", message: "Registered and logged in successfully!", color: "green" })
-                } else {
-                    notifications.show({ title: "Error", message: "Something went wrong while logging in. Try to login again.", color: "red" })
-                }
-            });
-        }
+  const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const response = await fetch('/api/auth/register', {
+      method: "POST",
+      body: JSON.stringify({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(res => res.json());
+
+    if (response.error) {
+      console.error(response.error);
+      notifications.show({
+        title: "Қате",
+        message: response.error,
+        color: "red"
+      });
+    } else {
+      // Тіркелу сәтті болған жағдайда автоматты түрде жүйеге кіру
+      const result = await signIn('credentials', {
+        email: formData.get('email'),
+        password: formData.get('password'),
+        redirect: false
+      });
+
+      if (result?.ok) {
+        notifications.show({
+          title: "Сәтті",
+          message: "Тіркеліп, жүйеге сәтті кірдіңіз!",
+          color: "green"
+        });
+        router.push('/');
+      } else {
+        notifications.show({
+          title: "Қате",
+          message: "Жүйеге кіру кезінде қате. Қайта кіріп көріңіз.",
+          color: "red"
+        });
+      }
     }
+  };
 
-    return (
-        <AuthFormContainer handleSubmit={handleSignup}>
-            <TextInput
-                label="Name"
-                name="name"
-                placeholder="User Name"
-                type="text"
-                required
-            />
-            <TextInput
-                label="Email"
-                name="email"
-                placeholder="Email"
-                type="email"
-                required
-            />
-            <TextInput
-                label="Password"
-                name="password"
-                placeholder="Password"
-                type="password"
-                required
-            />
-            <Button type="submit">Sign Up</Button>
-        </AuthFormContainer >
-    )
+  return (
+    <AuthFormContainer handleSubmit={handleSignup}>
+      <TextInput
+        label="Аты"
+        name="name"
+        placeholder="Пайдаланушы аты"
+        type="text"
+        required
+      />
+      <TextInput
+        label="Электрондық пошта"
+        name="email"
+        placeholder="Электрондық пошта"
+        type="email"
+        required
+      />
+      <TextInput
+        label="Құпиясөз"
+        name="password"
+        placeholder="Құпиясөз"
+        type="password"
+        required
+      />
+      <Button type="submit">Тіркелу</Button>
+    </AuthFormContainer>
+  );
 }
