@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "start:migrate": "prisma migrate deploy && npm run start",
@@ -50,7 +50,7 @@
     "postcss": "^8.4.35",
     "postcss-preset-mantine": "^1.13.0",
     "postcss-simple-vars": "^7.0.1",
-    "prisma": "^5.10.2",
+    "prisma": "^5.22.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
