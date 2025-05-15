@@ -645,8 +645,9 @@ function PartItem({
 			<Table.Td>
 				<Stack gap={"sm"}>
 					{part.title}
-					<Link href={`/part/${part.id}`}>
+					<Link href={`/part/${part.id}`} passHref>
 					<Button
+						component="a" 
 						variant="light"
 						size="xs"
 						leftSection={
