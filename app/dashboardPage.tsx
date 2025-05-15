@@ -42,6 +42,7 @@ import ValueSearch, {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "@mantine/form";
 import { debounce } from "lodash";
+import Link from "next/link";
 
 
 export function scannerInputToType(partScannerInput: string): ScannerPartState {
@@ -644,18 +645,21 @@ function PartItem({
 			<Table.Td>
 				<Stack gap={"sm"}>
 					{part.title}
-					<NavLink
-						href={"/part/" + part.id}
-						label="Мәліметтер"
-						active
+					<Link href={`/part/${part.id}`}>
+					<Button
+						variant="light"
+						size="xs"
 						leftSection={
-							<ThemeIcon>
-								<IconArrowLeftFromArc />
-							</ThemeIcon>
+						<ThemeIcon>
+							<IconArrowLeftFromArc />
+						</ThemeIcon>
 						}
-					/>
+					>
+						Мәліметтер
+					</Button>
+					</Link>
 				</Stack>
-			</Table.Td>
+				</Table.Td>
 			<Table.Td>{part.productCode}</Table.Td>
 			<Table.Td>{part.quantity}</Table.Td>
 			<Table.Td>
