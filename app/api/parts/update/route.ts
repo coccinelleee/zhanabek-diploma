@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
   try {
     const res = await request.json();
     const partId = res.id;
-    const updatedPart = await prisma.parts.update({
+    const updatedPart = await prisma.part.update({
       where: {
         id: partId,
       },
@@ -34,10 +34,10 @@ export async function POST(request: NextRequest) {
       },
     });
     if(updatedPart){
-      return NextResponse.json({ status: 200, body: updatedPart, message: "Part updated"});
+      return NextResponse.json({ status: 200, body: updatedPart, message: "Бөлім жаңартылды"});
     }
     else {
-      return NextResponse.json({ status: 500, error: "Part not updated" });
+      return NextResponse.json({ status: 500, error: "Бөлім жаңартылмаған" });
     }
 } catch (error: ErrorCallback | any) {
     return NextResponse.json({ status: 500, error: error });

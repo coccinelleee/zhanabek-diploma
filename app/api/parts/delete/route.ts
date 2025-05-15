@@ -7,9 +7,9 @@ export async function POST(request: NextRequest) {
 
     const partId = res.id;
     // const
-    const deletedPart = await prisma.parts.delete({ where: { id: partId } });
-    const itemCount = await prisma.parts.aggregate({ _count: true });
-    const parentCatalogNamesRaw = await prisma.parts.groupBy({
+    const deletedPart = await prisma.part.delete({ where: { id: partId } });
+    const itemCount = await prisma.part.aggregate({ _count: true });
+    const parentCatalogNamesRaw = await prisma.part.groupBy({
       by: ["parentCatalogName"],
     });
     const parentCatalogNames = parentCatalogNamesRaw.map(
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         message: "Part deleted",
       });
     } else {
-      return NextResponse.json({ status: 500, error: "Part not deleted" });
+      return NextResponse.json({ status: 500, error: "Бөлім жойылмады" });
     }
   } catch (error: ErrorCallback | any) {
     return NextResponse.json({ status: 500, error: error });
