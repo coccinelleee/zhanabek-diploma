@@ -37,7 +37,7 @@ export default function NavFooter() {
           {/* Описание проекта */}
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Paper shadow="md" radius="md" p="lg" withBorder>
-              <Stack spacing="xs" align="center">
+              <Stack style={{ gap: 'var(--mantine-spacing-xs)', alignItems: 'center' }}>
                 <Title order={4}>📦 Жоба сипаттамасы</Title>
                 <Text size="sm" ta="center">
                   <strong>Inventory Logistics</strong> — тауарлы-материалдық қорларды
