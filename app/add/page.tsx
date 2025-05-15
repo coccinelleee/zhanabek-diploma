@@ -29,7 +29,7 @@ import { Carousel } from "@mantine/carousel";
 import UnitForm, { UnitFormRef } from "@/lib/components/unit/UnitForm";
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { Html5Qrcode } from "html5-qrcode";
-import { Html5QrcodeScannerState } from "html5-qrcode"; 
+import { Html5QrcodeScannerState } from "html5-qrcode";
 
 
 export default function Add() {
@@ -93,7 +93,7 @@ useEffect(() => {
 
           try {
             const state = await scanner.getState?.();
-            if (state === "scanning") {
+            if (state === Html5QrcodeScannerState.SCANNING) {
               await scanner.stop();
             }
             setShowScanner(false);
