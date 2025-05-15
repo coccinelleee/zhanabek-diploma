@@ -2,51 +2,51 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
-//Manually create a part
+// Қолмен жаңа компонент қосу
 
 export async function POST(request: NextRequest) {
   try {
-    //Request body containing part details
+    // Сұраныс денесі – компонент туралы мәліметтер
     const reqBody = await request.json();
 
-    console.log(reqBody)
-    //Check if part already exists
+    console.log(reqBody);
+
+    // Компонент бұрыннан бар ма тексеру
     const pcNumber = reqBody.productCode;
-    const partExists = await prisma.parts.findUnique({
+    const partExists = await prisma.part.findUnique({
       where: {
         productCode: pcNumber,
       },
     });
+
     if (partExists) {
-      console.log("Part already exists");
-      return NextResponse.json({error: "Part already exists" }, {status: 409});
+      console.log("Компонент бұрыннан бар");
+      return NextResponse.json({ error: "Компонент бұрыннан тіркелген" }, { status: 409 });
     } else {
-      //reqBody could contain null values which will raise an error on create
-      //Thus we get rid of null values
+      // reqBody-де null мәндер болуы мүмкін – create кезінде қате болады
+      // Сондықтан null мәндерді алып тастаймыз
       const validData = Object.fromEntries(
         Object.entries(reqBody).filter(([key, value]) => value && value !== null)
-      ) as Prisma.PartsUncheckedCreateInput;
-      //As PartsUncheckedCreateInput needed, otherwise a TypeError will be raised
-      console.log("Creating part...");
-      const partCreate = await prisma.parts.create({
+      ) as Prisma.PartUncheckedCreateInput;
+
+      console.log("Компонент қосылуда...");
+      const partCreate = await prisma.part.create({
         data: validData,
       });
-      
-
 
       if (partCreate) {
-        console.log("Created part:")
-        console.log(partCreate)
+        console.log("Компонент сәтті қосылды:");
+        console.log(partCreate);
         return NextResponse.json({
           body: partCreate,
-          message: "Part created",
-        }, {status: 200});
+          message: "Компонент сәтті қосылды",
+        }, { status: 200 });
       } else {
-        return NextResponse.json({ error: "Part not created" }, {status: 500});
+        return NextResponse.json({ error: "Компонент қосылмады" }, { status: 500 });
       }
     }
   } catch (error: ErrorCallback | any) {
-    console.log("Error creating part", error);
-    return NextResponse.json({ error: "Error creating part" }, {status: 500});
+    console.log("Компонент қосу кезінде қате:", error);
+    return NextResponse.json({ error: "Компонент қосу кезінде қате болды" }, { status: 500 });
   }
 }

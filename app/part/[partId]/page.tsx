@@ -4,6 +4,6 @@ import PartPage from "./partPage";
 import prisma from "@/lib/prisma";
 
 export default async function Part({params}: {params: {partId: string}}) {
-  const partInfo = await prisma.parts.findUnique({where: {id: parseInt(params.partId)}}) as PartState;
+  const partInfo = await prisma.part.findUnique({where: {id: parseInt(params.partId)}}) as PartState;
   return <PartPage part={partInfo}/>;
 }
