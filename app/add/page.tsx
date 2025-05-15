@@ -241,30 +241,33 @@ async function handleAutocomplete() {
     setLoading(true);
     if (form.isValid()) {
       let currentPartInfo = form.values || ({} as any);
+  
       if (currentPartInfo) {
-        currentPartInfo.voltage =
-          String(voltageFormRef.current?.getSearchParameters().value ?? "");
-        currentPartInfo.resistance =
-          String(resistanceFormRef.current?.getSearchParameters().value ?? ""); 
-        currentPartInfo.power =
-          String(powerFormRef.current?.getSearchParameters().value ?? "");     
-        currentPartInfo.current =
-          String(currentFormRef.current?.getSearchParameters().value ?? "");     
-        currentPartInfo.frequency =
-          String(frequencyFormRef.current?.getSearchParameters().value ?? "");      
-        currentPartInfo.capacitance =
-          String(capacitanceFormRef.current?.getSearchParameters().value ?? ""); 
-        currentPartInfo.inductance =
-          String(inductanceFormRef.current?.getSearchParameters().value ?? "");
-      }      
+        currentPartInfo.voltage = String(voltageFormRef.current?.getSearchParameters().value ?? "");
+        currentPartInfo.resistance = String(resistanceFormRef.current?.getSearchParameters().value ?? "");
+        currentPartInfo.power = String(powerFormRef.current?.getSearchParameters().value ?? "");
+        currentPartInfo.current = String(currentFormRef.current?.getSearchParameters().value ?? "");
+        currentPartInfo.frequency = String(frequencyFormRef.current?.getSearchParameters().value ?? "");
+        currentPartInfo.capacitance = String(capacitanceFormRef.current?.getSearchParameters().value ?? "");
+        currentPartInfo.inductance = String(inductanceFormRef.current?.getSearchParameters().value ?? "");
+      }
+  
       const response = await fetch("/api/parts/create", {
         method: "POST",
-        body: JSON.stringify(form.values),
+        body: JSON.stringify({
+          ...form.values,
+          voltage: form.values.voltage ? parseFloat(form.values.voltage) : null,
+          resistance: form.values.resistance ? parseFloat(form.values.resistance) : null,
+          power: form.values.power ? parseFloat(form.values.power) : null,
+          current: form.values.current ? parseFloat(form.values.current) : null,
+          frequency: form.values.frequency ? parseFloat(form.values.frequency) : null,
+          capacitance: form.values.capacitance ? parseFloat(form.values.capacitance) : null,
+          inductance: form.values.inductance ? parseFloat(form.values.inductance) : null,
+        }),
       }).then((response) =>
-        response
-          .json()
-          .then((data) => ({ status: response.status, body: data }))
+        response.json().then((data) => ({ status: response.status, body: data }))
       );
+  
       if (response.status == 200) {
         notifications.show({
           title: "Бөлім сәтті қосылды",
@@ -289,7 +292,7 @@ async function handleAutocomplete() {
       });
     }
     setLoading(false);
-  }
+  }  
 
   const router = useRouter();
   const units = {
