@@ -10,7 +10,7 @@ import type { Session } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Logistics Inventory – Электрондық компоненттерді басқару жүйесі",
-  description: "LCSC үшін тегін және ашық электрондық компоненттерді басқару жүйесі",
+  description: "IL үшін тегін және ашық электрондық компоненттерді басқару жүйесі",
 };
 
 export default async function RootLayout({
@@ -33,11 +33,11 @@ export default async function RootLayout({
         <meta property="og:site_name" content="Logistics Inventory" />
         <meta
           property="og:description"
-          content="LCSC үшін тегін және ашық электрондық компоненттерді басқару жүйесі"
+          content="IL үшін тегін және ашық электрондық компоненттерді басқару жүйесі"
         />
         <meta
           name="description"
-          content="LCSC үшін тегін және ашық электрондық компоненттерді басқару жүйесі"
+          content="IL үшін тегін және ашық электрондық компоненттерді басқару жүйесі"
         />
         <meta name="robots" content="index, follow" />
         <meta name="author" content="Logistics Inventory" />
