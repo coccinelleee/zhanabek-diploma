@@ -168,7 +168,7 @@ export default function NavHeader() {
         onClose={closeDrawer}
         size="70%"
         padding="md"
-        title="Navigation"
+        title="Навигация"
         hiddenFrom="sm"
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
